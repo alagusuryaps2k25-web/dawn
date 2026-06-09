@@ -1,0 +1,19 @@
+.promo-banner {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.promo-banner img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.promo-banner__content {
+  margin-top: 20px;
+}
+
+.promo-banner__content a {
+  display: inline-block;
+  margin-top: 12px;
+}
