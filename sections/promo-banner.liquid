@@ -1,4 +1,5 @@
 {{ 'promo-banner.css' | asset_url | stylesheet_tag }}
+{% comment %} Shopify, find promo-banner.css in assets, generate its URL, and create the HTML needed to load that CSS. {% endcomment %}
 
 <div class="promo-banner">
   {% if section.settings.banner_image %}

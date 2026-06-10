@@ -41,6 +41,9 @@
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'sticky-atc.js' | asset_url }}" defer></script>
+  <script src="{{ 'cart-test.js' | asset_url }}" defer></script>
+
   {%- if product.quantity_price_breaks_configured? -%}
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
@@ -737,6 +740,9 @@
     </script>
   </div>
 </product-info>
+
+<cart-test></cart-test>
+<sticky-atc></sticky-atc>
 
 {% schema %}
 {
