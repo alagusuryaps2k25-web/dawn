@@ -1,37 +1,62 @@
 class StickyAtc extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-      <div id="sticky-bar" style="
-        display:none;
-        position:fixed;
-        bottom:0;
-        left:0;
-        right:0;
-        background:red;
-        padding:50px;
-        border-top:1px solid #fff;
-        z-index:999;
-      ">
-        <button id="add-cart-btn">
-          Add To Cart
-        </button>
+      <div id="sticky-bar" class="sticky-atc-bar">
+        <div class="sticky-atc-content">
+          <div class="sticky-atc-title">
+            ${document.title}
+          </div>
+
+          <div class="sticky-atc-qty">
+            <button id="minus-btn" aria-label="Decrease quantity">-</button>
+
+            <input
+              id="qty"
+              type="number"
+              value="1"
+              min="1"
+              aria-label="Quantity"
+            />
+
+            <button id="plus-btn" aria-label="Increase quantity">+</button>
+          </div>
+
+          <button
+            id="add-cart-btn"
+            aria-label="Add selected product to cart"
+          >
+            Add To Cart
+          </button>
+        </div>
       </div>
     `;
 
     const stickyBar = this.querySelector('#sticky-bar');
+    const qtyInput = this.querySelector('#qty');
+
+    const productForm = document.querySelector('product-form');
 
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
-        stickyBar.style.display = 'block';
-      } else {
-        stickyBar.style.display = 'none';
-      }
+      if (!productForm) return;
+
+      const formBottom = productForm.getBoundingClientRect().bottom;
+
+      stickyBar.style.display = formBottom < 0 ? 'block' : 'none';
     });
 
-    const button = this.querySelector('#add-cart-btn');
+    this.querySelector('#plus-btn').addEventListener('click', () => {
+      qtyInput.value = Number(qtyInput.value) + 1;
+    });
 
-    button.addEventListener('click', async () => {
-      const variantId = document.querySelector('.product-variant-id').value;
+    this.querySelector('#minus-btn').addEventListener('click', () => {
+      qtyInput.value = Math.max(1, Number(qtyInput.value) - 1);
+    });
+
+    this.querySelector('#add-cart-btn').addEventListener('click', async () => {
+      const variantInput = document.querySelector('product-form input[name="id"]');
+
+      if (!variantInput) return;
+
       const response = await fetch('/cart/add.js', {
         method: 'POST',
         headers: {
@@ -40,8 +65,8 @@ class StickyAtc extends HTMLElement {
         body: JSON.stringify({
           items: [
             {
-              id: Number(variantId),
-              quantity: 1,
+              id: Number(variantInput.value),
+              quantity: Number(qtyInput.value),
             },
           ],
         }),
@@ -49,7 +74,7 @@ class StickyAtc extends HTMLElement {
 
       const data = await response.json();
 
-      console.log('Added:', data);
+      console.log('Added to cart', data);
     });
   }
 }
