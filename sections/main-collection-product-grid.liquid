@@ -15,6 +15,8 @@
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
+<script src="{{ 'view-toggle.js' | asset_url }}" defer="defer"></script>
+
 {%- if section.settings.quick_add == 'bulk' -%}
   <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
@@ -143,6 +145,10 @@
             class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           >
             <div class="loading-overlay gradient"></div>
+            <div class="view-toggle" style="display:flex;gap:8px;margin-bottom:1rem">
+              <button id="btn-grid">Grid</button>
+              <button id="btn-list">List</button>
+            </div>
             <ul
               id="product-grid"
               data-id="{{ section.id }}"
@@ -233,7 +239,7 @@
           "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__2.label"
         }
       ]
-    },    
+    },
     {
       "type": "color_scheme",
       "id": "color_scheme",

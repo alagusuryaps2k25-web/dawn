@@ -140,6 +140,13 @@
                 {{- 'products.product.on_sale' | t -}}
               </span>
             {%- endif -%}
+            {% for tag in card_product.tags %}
+              {% if tag == 'new' or tag == 'bestseller' %}
+                <span class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}">
+                  {{- tag | upcase -}}
+                </span>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
       </div>
